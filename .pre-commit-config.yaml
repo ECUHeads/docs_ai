@@ -1,0 +1,51 @@
+# Pre-commit hooks for security and code quality
+# Install: pip install pre-commit
+# Initialize: pre-commit install
+
+repos:
+  # ---- Basic safety checks ----
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # Detect private keys (RSA, DSA, EC, ED25519)
+      - id: detect-private-key
+
+      # Detect AWS credentials
+      - id: detect-aws-credentials
+
+      # Prevent committing large files (>1MB by default)
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
+
+      # Don't commit debug statements
+      - id: debug-statements
+        language_version: python3
+
+      # Check for merge conflicts left in code
+      - id: check-merge-conflict
+
+      # Ensure files end with newline
+      - id: end-of-file-fixer
+
+      # Trim trailing whitespace
+      - id: trailing-whitespace
+
+  # ---- Secret detection with gitleaks ----
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.0
+    hooks:
+      - id: gitleaks
+
+  # ---- Python linting ----
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: ['--max-line-length=120', '--ignore=E501,W503']
+
+  # ---- YAML validation ----
+  - repo: https://github.com/pre-commit/mirrors-yamllint
+    rev: v1.33.0
+    hooks:
+      - id: yamllint
+        args: ['--strict', '-d', 'relaxed']

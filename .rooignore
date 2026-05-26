@@ -1,0 +1,15 @@
+cache
+data
+.venv
+.venv2
+.vscode
+*.xlsx
+*.csv
+*.parquete
+**/__init__.py
+**/__pycache__
+*.pyc
+*.pkl
+*.pt
+*.joblib
+*.jsonl

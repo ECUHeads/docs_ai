@@ -1,0 +1,97 @@
+{
+  "name": "search_knowledge_graph",
+  "version": "1.0.0",
+  "description": "Universal Knowledge Graph Search Tool — Query multi-domain knowledge including technical descriptions (Thai/English), trading strategies, hardware specs, and creative content seeds via hybrid graph + vector search.",
+  "endpoint": "http://localhost:8081/api/search",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "search_query": {
+        "type": "string",
+        "description": "Natural language search query in Thai or English. Example: 'algorithmic trading strategies' or 'กลยุทธ์การเทรดอัตโนมัติ'"
+      }
+    },
+    "required": ["search_query"]
+  },
+  "response_format": {
+    "type": "object",
+    "properties": {
+      "result": {
+        "type": "string",
+        "description": "Formatted Markdown context block with search results"
+      },
+      "status": {
+        "type": "string",
+        "description": "Request status: 'success' or 'error'"
+      }
+    }
+  },
+  "environment_variables": {
+    "NEO4J_URI": {
+      "type": "string",
+      "default": "bolt://localhost:7687",
+      "description": "Neo4j database connection URI"
+    },
+    "NEO4J_USERNAME": {
+      "type": "string",
+      "default": "neo4j",
+      "description": "Neo4j authentication username"
+    },
+    "NEO4J_PASSWORD": {
+      "type": "string",
+      "default": "password",
+      "description": "Neo4j authentication password"
+    },
+    "SEARCH_TOP_K": {
+      "type": "integer",
+      "default": 3,
+      "description": "Number of top results to return per search"
+    },
+    "SEARCH_MAX_HOPS": {
+      "type": "integer",
+      "default": 2,
+      "description": "Maximum graph traversal hops for context expansion"
+    },
+    "SEARCH_TIMEOUT": {
+      "type": "integer",
+      "default": 30,
+      "description": "Search timeout in seconds"
+    },
+    "SERVER_PORT": {
+      "type": "integer",
+      "default": 8081,
+      "description": "HTTP server listening port"
+    },
+    "CORS_ORIGINS": {
+      "type": "string",
+      "default": "*",
+      "description": "Comma-separated list of allowed CORS origins (use '*' for all)"
+    }
+  },
+  "health_check": {
+    "endpoint": "http://localhost:8081/health",
+    "method": "GET",
+    "expected_status": 200
+  },
+  "schema": {
+    "type": "function",
+    "function": {
+      "name": "search_knowledge_graph",
+      "description": "Search the Universal Knowledge Graph for concepts, equations, hardware specifications, trading strategies, and creative content seeds. The graph contains multi-domain knowledge with technical descriptions (Thai and English), simple explanations for general audience, analogies comparing technical concepts to everyday things, and creative fiction seeds inspired by technical knowledge.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "search_query": {
+            "type": "string",
+            "description": "Natural language search query in Thai or English. Example: 'algorithmic trading strategies' or 'กลยุทธ์การเทรดอัตโนมัติ'"
+          }
+        },
+        "required": ["search_query"]
+      }
+    }
+  }
+}
